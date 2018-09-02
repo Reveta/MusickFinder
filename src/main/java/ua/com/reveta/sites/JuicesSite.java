@@ -1,9 +1,8 @@
-package ua.com.epam.sites;
+package ua.com.reveta.sites;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import ua.com.epam.templates.Site;
+import ua.com.reveta.templates.Site;
 
 public class JuicesSite extends Site {
 
@@ -37,7 +36,7 @@ public class JuicesSite extends Site {
             return this.elementMap.get("input");
 
         } else {
-            WebElement query = this.driver.findElement(By.id("query"));
+            WebElement query = driver.findElement(By.id("query"));
             this.addElementToMap("input", query);
             return query;
         }
@@ -59,20 +58,30 @@ public class JuicesSite extends Site {
 
         this.driver.findElement(By.id("result_1"))
                 .findElement(By.className("options")).click();
-
-        waiting(3000);
-
-        WebElement element = this.driver.findElement(By.id("download_1"))
-                    .findElement(By.className("options"));
-
-            System.out.println("Помилка до кнопки завантажити");
-
-        String attribute = element
-                    .findElement(By.className("url"))
-                    .getAttribute("href");
-            System.out.println("Помилка після кнопки завантажити");
-
-        this.openPage(attribute);
+        try {
+            waiting(3000);
+            String downloadUrl = getDownloadUrl();
+            if (downloadUrl != null) {
+                this.openPage(downloadUrl);
+            }
+        } catch (Exception e) {
+            waiting(3000);
+            String downloadUrl = getDownloadUrl();
+            if (downloadUrl != null) {
+                this.openPage(downloadUrl);
+            }
+        }
     }
 
+    private String getDownloadUrl() {
+
+        WebElement element = this.driver.findElement(By.id("download_1"))
+                .findElement(By.className("options"));
+
+        String attribute = element
+                .findElement(By.className("url"))
+                .getAttribute("href");
+
+        return attribute;
+    }
 }

@@ -1,8 +1,8 @@
-package ua.com.epam.sites;
+package ua.com.reveta.sites;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import ua.com.epam.templates.Site;
+import ua.com.reveta.templates.Site;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +26,10 @@ public class YouTubeMusicSite extends Site {
 
         this.driver.
                 findElements(By.id("video-title")).
-                forEach(this::addVideoNameList);
+                forEach(this::addVideoName);
     }
 
-    private void addVideoNameList(WebElement element){
+    private void addVideoName(WebElement element){
         listVideoNames.add(element.getText());
     }
 
